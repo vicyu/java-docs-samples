@@ -18,23 +18,28 @@ package com.example.pubsub;
 
 // [START pubsub_quickstart]
 // Imports the Google Cloud client library
-import com.google.cloud.pubsub.PubSub;
-import com.google.cloud.pubsub.PubSubOptions;
-import com.google.cloud.pubsub.Topic;
-import com.google.cloud.pubsub.TopicInfo;
+
+import com.google.cloud.ServiceOptions;
+import com.google.cloud.pubsub.spi.v1.TopicAdminClient;
+import com.google.pubsub.v1.TopicName;
 
 public class QuickstartSample {
+
   public static void main(String... args) throws Exception {
-    // Instantiates a client
-    PubSub pubsub = PubSubOptions.getDefaultInstance().getService();
 
-    // The name for the new topic
-    String topicName = "my-new-topic";
+    // Your Google Cloud Platform project ID
+    String projectId = ServiceOptions.getDefaultProjectId();
 
-    // Creates the new topic
-    Topic topic = pubsub.create(TopicInfo.of(topicName));
+    // Your topic ID
+    String topicId = "my-new-topic";
 
-    System.out.printf("Topic %s created.%n", topic.getName());
+    // Create a new topic
+    TopicName topic = TopicName.create(projectId, topicId);
+    try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
+      topicAdminClient.createTopic(topic);
+    }
+
+    System.out.printf("Topic %s:%s created.\n", topic.getProject(), topic.getTopic());
   }
 }
 // [END pubsub_quickstart]

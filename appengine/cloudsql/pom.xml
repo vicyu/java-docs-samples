@@ -1,5 +1,5 @@
 <!--
- Copyright 2016 Google Inc. All Rights Reserved.
+ Copyright 2016 Google Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@
   <artifactId>appengine-cloudsql</artifactId>
 
   <parent>
-    <artifactId>doc-samples</artifactId>
+    <artifactId>appengine-doc-samples</artifactId>
     <groupId>com.google.cloud</groupId>
     <version>1.0.0</version>
-    <relativePath>../..</relativePath>
+    <relativePath>..</relativePath>
   </parent>
 
 <!-- [START properties] -->
@@ -58,7 +58,15 @@
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>${appengine.sdk.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client-appengine</artifactId>
+      <version>1.22.0</version>
+    </dependency>
+
 
     <!-- [START dependencies] -->
     <dependency> <!-- ONLY USED LOCALY -->
@@ -93,18 +101,18 @@
         </configuration>
       </plugin>
 
+<!--
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>appengine-maven-plugin</artifactId>
         <version>${appengine.maven.plugin}</version>
       </plugin>
-<!--
+ -->
       <plugin>
         <groupId>com.google.appengine</groupId>
         <artifactId>appengine-maven-plugin</artifactId>
         <version>${appengine.sdk.version}</version>
       </plugin>
- -->
     </plugins>
   </build>
 </project>

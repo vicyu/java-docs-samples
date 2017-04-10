@@ -2,26 +2,36 @@
 
 [Google Cloud Pub/Sub][pubsub] is a fully-managed real-time messaging service that allows you to
 send and receive messages between independent applications.
-These sample Java applications demonstrate how to access the Pub/Sub API using
+This sample Java application demonstrates how to access the Pub/Sub API using
 the [Google Cloud Client Library for Java][google-cloud-java].
 
 [pubsub]: https://cloud.google.com/pubsub/
 [google-cloud-java]: https://github.com/GoogleCloudPlatform/google-cloud-java
 
+For more samples, see the samples in
+[google-cloud-java](https://github.com/GoogleCloudPlatform/google-cloud-java/tree/master/google-cloud-examples/src/main/java/com/google/cloud/examples/pubsub).
+
 ## Quickstart
 
-Install [Maven](http://maven.apache.org/).
+#### Setup
+- Install [Maven](http://maven.apache.org/) <p>
+- Install the [Google Cloud SDK](https://cloud.google.com/sdk/) and run :
 
-Build your project with:
 
-	mvn clean package -DskipTests
-	
-You can then run a given `ClassName` via:
+      gcloud config set project [YOUR PROJECT ID]
 
-	mvn exec:java -Dexec.mainClass=com.example.pubsub.ClassName \
-	    -DpropertyName=propertyValue \
-		-Dexec.args="any arguments to the app"
 
-### Creating a new topic (using the quickstart sample)
+- Build your project with:
+
+
+	  mvn clean package -DskipTests
+
+#### Testing
+
+Run the tests with Maven.
+
+    mvn clean verify
+
+#### Creating a new topic (using the quickstart sample)
 
     mvn exec:java -Dexec.mainClass=com.example.pubsub.QuickstartSample

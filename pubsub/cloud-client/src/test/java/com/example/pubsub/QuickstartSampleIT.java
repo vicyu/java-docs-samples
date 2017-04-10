@@ -18,8 +18,10 @@ package com.example.pubsub;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.cloud.pubsub.PubSub;
-import com.google.cloud.pubsub.PubSubOptions;
+import com.google.cloud.ServiceOptions;
+import com.google.cloud.pubsub.spi.v1.TopicAdminClient;
+import com.google.pubsub.v1.TopicName;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 /**
@@ -35,26 +38,33 @@ import java.io.PrintStream;
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class QuickstartSampleIT {
+
   private ByteArrayOutputStream bout;
   private PrintStream out;
 
-  private static final void deleteTestTopic() {
-    PubSub pubsub = PubSubOptions.getDefaultInstance().getService();
-    String topicName = "my-new-topic";
-    pubsub.deleteTopic(topicName);
+  private void deleteTestTopic() throws Exception {
+    try (TopicAdminClient topicAdminClient = TopicAdminClient.create()) {
+      topicAdminClient.deleteTopic(
+          TopicName.create(ServiceOptions.getDefaultProjectId(), "my-new-topic"));
+    } catch (IOException e) {
+      System.err.println("Error deleting topic " + e.getMessage());
+    }
   }
 
   @Before
   public void setUp() {
-    deleteTestTopic();
-
     bout = new ByteArrayOutputStream();
     out = new PrintStream(bout);
     System.setOut(out);
+    try {
+      deleteTestTopic();
+    } catch (Exception e) {
+      //empty catch block
+    }
   }
 
   @After
-  public void tearDown() {
+  public void tearDown() throws Exception {
     System.setOut(null);
     deleteTestTopic();
   }
@@ -63,6 +73,6 @@ public class QuickstartSampleIT {
   public void testQuickstart() throws Exception {
     QuickstartSample.main();
     String got = bout.toString();
-    assertThat(got).contains("Topic my-new-topic created.");
+    assertThat(got).contains("my-new-topic created.");
   }
 }
